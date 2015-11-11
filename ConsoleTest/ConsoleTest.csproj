@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69F4A8D8-88BD-4D60-A2B7-0D5EF5252EE4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsoleTest</RootNamespace>
+    <AssemblyName>ConsoleTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\csharp-client-generated\csharp-client\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OSIsoft.AFSDK, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6238be57836698e6, processorArchitecture=MSIL" />
+    <Reference Include="RestSharp">
+      <HintPath>..\csharp-client-generated\csharp-client\bin\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Api\AssetDatabasesApi.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Client\ApiClient.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Client\ApiException.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Client\Configuration.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\AssetDatabase.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\AssetDatabaseLinks.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\AssetServer.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Attribute.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\AttributeTemplate.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Body.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\CacheInstance.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Categories.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Category.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\CategoryLink.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\DataServer.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Element.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\ElementLinks.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Elements.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\ElementTemplate.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\ElementTemplateLinks.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\ElementTemplates.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EnumerationSet.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EnumerationSetLinks.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EnumerationSets.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EnumerationValue.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EnumerationValueValue.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EventFrame.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EventFrameLinks.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\EventFrames.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\ImportBody.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Links.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\PageLinks.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Point.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\PointAttribute.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\SelfLink.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\StreamSummaries.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\StreamValue.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\StreamValues.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\SummaryValue.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Table.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\TableLink.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Tables.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\TimedValue.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\TimedValues.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Unit.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\UnitClass.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\UserInfo.cs" />
+    <Compile Include="src\main\csharp\IO\Swagger\Model\Version.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

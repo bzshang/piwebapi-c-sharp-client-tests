@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AF xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OSIsoft.AF.xsd" SchemaVersion="2.0" SoftwareVersion="2.7.5.7166" ExportMode="NoUniqueID" PISystem="BSHANG-PI1" Database="ImportedDatabase" Description="" Created="2015-11-09T21:39:34.2549765Z" id="6bcf441b-a11a-4345-848d-a94f0cbac77b" ParentKey="0f5d58de-b702-49fe-a283-1ccc5b87c94d" ExportedObject="ImportedDatabase" ExportedType="AFDatabase" Identity="Database" PIPersist="142 {9895150E-085D-4fcb-A16D-5EF5D2527196} 2\{0f5d58de-b702-49fe-a283-1ccc5b87c94d}\{6bcf441b-a11a-4345-848d-a94f0cbac77b}*BSHANG-PI1\ImportedDatabase">
+  <AFDatabase>
+    <Name>ImportedDatabase</Name>
+    <AFElementCategory>
+      <Name>Category1</Name>
+    </AFElementCategory>
+    <AFElementTemplate>
+      <Name>Template1</Name>
+      <Type>None</Type>
+      <InstanceType>Element</InstanceType>
+      <AllowElementToExtend>false</AllowElementToExtend>
+    </AFElementTemplate>
+    <AFElement>
+      <Name>Element1</Name>
+    </AFElement>
+    <AFElement>
+      <Name>Element1_1</Name>
+      <Template>Template1</Template>
+    </AFElement>
+  </AFDatabase>
+</AF>
