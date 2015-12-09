@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerClientTests", "SwaggerClientTests\SwaggerClientTests.csproj", "{AE859243-649D-4B03-BFA0-08778539434A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIWebAPI-CSharp-Client-Tests", "SwaggerClientTests\PIWebAPI-CSharp-Client-Tests.csproj", "{AE859243-649D-4B03-BFA0-08778539434A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{69F4A8D8-88BD-4D60-A2B7-0D5EF5252EE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E3C4CB2-A1DF-48D4-BFAA-05276F1C82B3}"
+	ProjectSection(SolutionItems) = preProject
+		piwebapi.yaml = piwebapi.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// <summary>
     /// Gets or Sets WebId
     /// </summary>
-    [DataMember(Name="webId", EmitDefaultValue=false)]
+    [DataMember(Name="WebId", EmitDefaultValue=false)]
     public string WebId { get; set; }
 
     
@@ -25,7 +25,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Id
     /// </summary>
     [DataMember(Name="Id", EmitDefaultValue=false)]
-    public string Id { get; set; }
+    public bool? Id { get; set; }
 
     
     /// <summary>
@@ -53,14 +53,14 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Future
     /// </summary>
     [DataMember(Name="Future", EmitDefaultValue=false)]
-    public string Future { get; set; }
+    public bool? Future { get; set; }
 
     
     /// <summary>
     /// Gets or Sets Links
     /// </summary>
     [DataMember(Name="Links", EmitDefaultValue=false)]
-    public Links Links { get; set; }
+    public PointLink Links { get; set; }
 
     
 

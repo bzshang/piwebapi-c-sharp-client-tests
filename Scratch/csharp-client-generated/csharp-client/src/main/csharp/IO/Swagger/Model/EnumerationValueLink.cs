@@ -12,27 +12,20 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class EnumerationValueValue {
+  public class EnumerationValueLink {
     
     /// <summary>
-    /// Gets or Sets Name
+    /// Gets or Sets Self
     /// </summary>
-    [DataMember(Name="Name", EmitDefaultValue=false)]
-    public string Name { get; set; }
+    [DataMember(Name="Self", EmitDefaultValue=false)]
+    public string Self { get; set; }
 
     
     /// <summary>
-    /// Gets or Sets Value
+    /// Gets or Sets EnumerationSet
     /// </summary>
-    [DataMember(Name="Value", EmitDefaultValue=false)]
-    public int? Value { get; set; }
-
-    
-    /// <summary>
-    /// Gets or Sets IsSystem
-    /// </summary>
-    [DataMember(Name="IsSystem", EmitDefaultValue=false)]
-    public string IsSystem { get; set; }
+    [DataMember(Name="EnumerationSet", EmitDefaultValue=false)]
+    public string EnumerationSet { get; set; }
 
     
 
@@ -42,13 +35,11 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class EnumerationValueValue {\n");
+      sb.Append("class EnumerationValueLink {\n");
       
-      sb.Append("  Name: ").Append(Name).Append("\n");
+      sb.Append("  Self: ").Append(Self).Append("\n");
       
-      sb.Append("  Value: ").Append(Value).Append("\n");
-      
-      sb.Append("  IsSystem: ").Append(IsSystem).Append("\n");
+      sb.Append("  EnumerationSet: ").Append(EnumerationSet).Append("\n");
       
       sb.Append("}\n");
       return sb.ToString();

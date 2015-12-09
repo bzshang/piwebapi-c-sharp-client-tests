@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// <summary>
     /// Gets or Sets WebId
     /// </summary>
-    [DataMember(Name="webId", EmitDefaultValue=false)]
+    [DataMember(Name="WebId", EmitDefaultValue=false)]
     public string WebId { get; set; }
 
     
@@ -74,28 +74,28 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Factor
     /// </summary>
     [DataMember(Name="Factor", EmitDefaultValue=false)]
-    public double? Factor { get; set; }
+    public float? Factor { get; set; }
 
     
     /// <summary>
     /// Gets or Sets Offset
     /// </summary>
     [DataMember(Name="Offset", EmitDefaultValue=false)]
-    public string Offset { get; set; }
+    public float? Offset { get; set; }
 
     
     /// <summary>
     /// Gets or Sets ReferenceFactor
     /// </summary>
     [DataMember(Name="ReferenceFactor", EmitDefaultValue=false)]
-    public string ReferenceFactor { get; set; }
+    public float? ReferenceFactor { get; set; }
 
     
     /// <summary>
     /// Gets or Sets ReferenceOffset
     /// </summary>
     [DataMember(Name="ReferenceOffset", EmitDefaultValue=false)]
-    public string ReferenceOffset { get; set; }
+    public float? ReferenceOffset { get; set; }
 
     
     /// <summary>
@@ -109,7 +109,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Links
     /// </summary>
     [DataMember(Name="Links", EmitDefaultValue=false)]
-    public Links Links { get; set; }
+    public UnitLink Links { get; set; }
 
     
 

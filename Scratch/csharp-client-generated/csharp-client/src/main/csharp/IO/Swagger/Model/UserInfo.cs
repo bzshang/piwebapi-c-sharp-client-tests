@@ -32,7 +32,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets IsAuthenticated
     /// </summary>
     [DataMember(Name="IsAuthenticated", EmitDefaultValue=false)]
-    public string IsAuthenticated { get; set; }
+    public bool? IsAuthenticated { get; set; }
 
     
     /// <summary>
@@ -46,7 +46,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets ImpersonationLevel
     /// </summary>
     [DataMember(Name="ImpersonationLevel", EmitDefaultValue=false)]
-    public string ImpersonationLevel { get; set; }
+    public int? ImpersonationLevel { get; set; }
 
     
 

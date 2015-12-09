@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// <summary>
     /// Gets or Sets WebId
     /// </summary>
-    [DataMember(Name="webId", EmitDefaultValue=false)]
+    [DataMember(Name="WebId", EmitDefaultValue=false)]
     public string WebId { get; set; }
 
     

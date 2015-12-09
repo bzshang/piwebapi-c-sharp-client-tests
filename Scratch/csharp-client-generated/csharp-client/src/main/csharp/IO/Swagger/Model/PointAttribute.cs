@@ -32,7 +32,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Links
     /// </summary>
     [DataMember(Name="Links", EmitDefaultValue=false)]
-    public Links Links { get; set; }
+    public PointAttributeLink Links { get; set; }
 
     
 

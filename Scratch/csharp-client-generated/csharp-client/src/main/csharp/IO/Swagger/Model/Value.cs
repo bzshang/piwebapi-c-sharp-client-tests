@@ -12,14 +12,7 @@ namespace IO.Swagger.Model {
   /// 
   /// </summary>
   [DataContract]
-  public class SelfLink {
-    
-    /// <summary>
-    /// Gets or Sets Self
-    /// </summary>
-    [DataMember(Name="Self", EmitDefaultValue=false)]
-    public string Self { get; set; }
-
+  public class Value {
     
 
     /// <summary>
@@ -28,9 +21,7 @@ namespace IO.Swagger.Model {
     /// <returns>String presentation of the object</returns>
     public override string ToString()  {
       var sb = new StringBuilder();
-      sb.Append("class SelfLink {\n");
-      
-      sb.Append("  Self: ").Append(Self).Append("\n");
+      sb.Append("class Value {\n");
       
       sb.Append("}\n");
       return sb.ToString();

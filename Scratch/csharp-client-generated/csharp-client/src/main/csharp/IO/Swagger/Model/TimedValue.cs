@@ -39,21 +39,21 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Good
     /// </summary>
     [DataMember(Name="Good", EmitDefaultValue=false)]
-    public string Good { get; set; }
+    public bool? Good { get; set; }
 
     
     /// <summary>
     /// Gets or Sets Questionable
     /// </summary>
     [DataMember(Name="Questionable", EmitDefaultValue=false)]
-    public string Questionable { get; set; }
+    public bool? Questionable { get; set; }
 
     
     /// <summary>
     /// Gets or Sets Substituted
     /// </summary>
     [DataMember(Name="Substituted", EmitDefaultValue=false)]
-    public string Substituted { get; set; }
+    public bool? Substituted { get; set; }
 
     
 

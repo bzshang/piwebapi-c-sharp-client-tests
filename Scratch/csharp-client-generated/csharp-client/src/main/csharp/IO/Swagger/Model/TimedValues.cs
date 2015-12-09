@@ -15,17 +15,17 @@ namespace IO.Swagger.Model {
   public class TimedValues {
     
     /// <summary>
+    /// Gets or Sets Links
+    /// </summary>
+    [DataMember(Name="Links", EmitDefaultValue=false)]
+    public PageLinks Links { get; set; }
+
+    
+    /// <summary>
     /// Gets or Sets UnitsAbbreviation
     /// </summary>
     [DataMember(Name="UnitsAbbreviation", EmitDefaultValue=false)]
     public string UnitsAbbreviation { get; set; }
-
-    
-    /// <summary>
-    /// Gets or Sets Links
-    /// </summary>
-    [DataMember(Name="Links", EmitDefaultValue=false)]
-    public Links Links { get; set; }
 
     
     /// <summary>
@@ -44,9 +44,9 @@ namespace IO.Swagger.Model {
       var sb = new StringBuilder();
       sb.Append("class TimedValues {\n");
       
-      sb.Append("  UnitsAbbreviation: ").Append(UnitsAbbreviation).Append("\n");
-      
       sb.Append("  Links: ").Append(Links).Append("\n");
+      
+      sb.Append("  UnitsAbbreviation: ").Append(UnitsAbbreviation).Append("\n");
       
       sb.Append("  Items: ").Append(Items).Append("\n");
       

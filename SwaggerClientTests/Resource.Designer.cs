@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SwaggerClientTests {
+namespace PIWebAPICSharpClientTests {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace SwaggerClientTests {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AssetDatabasesResource {
+    internal class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AssetDatabasesResource() {
+        internal Resource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace SwaggerClientTests {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SwaggerClientTests.AssetDatabasesResource", typeof(AssetDatabasesResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PIWebAPICSharpClientTests.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,15 @@ namespace SwaggerClientTests {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \\BSHANG-PI1\NuGreen\NuGreen\Houston\Cracking Process\Equipment\\bshang-pi1\nugreen\nugreen\houston\cracking process\equipment\B-210|Process Feedrate.
+        /// </summary>
+        internal static string AttributePath {
+            get {
+                return ResourceManager.GetString("AttributePath", resourceCulture);
             }
         }
         
@@ -133,6 +142,24 @@ namespace SwaggerClientTests {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A0E3lhdDwK3_kmigxzMW4fJTQ0GgFd6qE5RG5bKjgnz9MRQ-zSEIeRLaVUFY7p_dCVk2wQlNIQU5HLVBJMVxOVUdSRUVOXE5VR1JFRU5cSE9VU1RPTlxDUkFDS0lORyBQUk9DRVNTXEVRVUlQTUVOVFxCLTIxMHxQUk9DRVNTIEZFRURSQVRF.
+        /// </summary>
+        internal static string WebIdAttribute {
+            get {
+                return ResourceManager.GetString("WebIdAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WebIdB210 {
+            get {
+                return ResourceManager.GetString("WebIdB210", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D03lhdDwK3_kmigxzMW4fJTQ6pSAwfoa3ka2MUua4pIq3AQlNIQU5HLVBJMVxTV0FHR0VSQ1JFQVRFVEVTVFM.
         /// </summary>
         internal static string WebIdCreate {
@@ -147,6 +174,33 @@ namespace SwaggerClientTests {
         internal static string WebIdEventFrameElement {
             get {
                 return ResourceManager.GetString("WebIdEventFrameElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A0E3lhdDwK3_kmigxzMW4fJTQ0GgFd6qE5RG5bKjgnz9MRQbdMbsUAhhlcC2GY8KO6Y2AQlNIQU5HLVBJMVxOVUdSRUVOXE5VR1JFRU5cSE9VU1RPTlxDUkFDS0lORyBQUk9DRVNTXEVRVUlQTUVOVFxCLTIxMHxGVUVM.
+        /// </summary>
+        internal static string WebIdFuelAttribute {
+            get {
+                return ResourceManager.GetString("WebIdFuelAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A0E3lhdDwK3_kmigxzMW4fJTQE3c_b6yJ5RGV-fJgXMWgvw2etfy419r02xlqNpQU797wQlNIQU5HLVBJMVxTV0FHR0VSQ1JFQVRFVEVTVFNcVEVTVEVMRU1FTlR8UEFUQ0hBVFRSSUJVVEU.
+        /// </summary>
+        internal static string WebIdPatchAttribute {
+            get {
+                return ResourceManager.GetString("WebIdPatchAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E03lhdDwK3_kmigxzMW4fJTQE3c_b6yJ5RGV-fJgXMWgvwQlNIQU5HLVBJMVxTV0FHR0VSQ1JFQVRFVEVTVFNcVEVTVEVMRU1FTlQ.
+        /// </summary>
+        internal static string WebIdTestElement {
+            get {
+                return ResourceManager.GetString("WebIdTestElement", resourceCulture);
             }
         }
         

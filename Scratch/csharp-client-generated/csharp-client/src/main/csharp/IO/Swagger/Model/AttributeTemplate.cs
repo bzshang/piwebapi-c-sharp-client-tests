@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// <summary>
     /// Gets or Sets WebId
     /// </summary>
-    [DataMember(Name="webId", EmitDefaultValue=false)]
+    [DataMember(Name="WebId", EmitDefaultValue=false)]
     public string WebId { get; set; }
 
     
@@ -88,21 +88,21 @@ namespace IO.Swagger.Model {
     /// Gets or Sets IsConfigurationItem
     /// </summary>
     [DataMember(Name="IsConfigurationItem", EmitDefaultValue=false)]
-    public string IsConfigurationItem { get; set; }
+    public bool? IsConfigurationItem { get; set; }
 
     
     /// <summary>
     /// Gets or Sets IsExcluded
     /// </summary>
     [DataMember(Name="IsExcluded", EmitDefaultValue=false)]
-    public string IsExcluded { get; set; }
+    public bool? IsExcluded { get; set; }
 
     
     /// <summary>
     /// Gets or Sets IsHidden
     /// </summary>
     [DataMember(Name="IsHidden", EmitDefaultValue=false)]
-    public string IsHidden { get; set; }
+    public bool? IsHidden { get; set; }
 
     
     /// <summary>
@@ -116,7 +116,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Links
     /// </summary>
     [DataMember(Name="Links", EmitDefaultValue=false)]
-    public Links Links { get; set; }
+    public AttributeTemplateLinks Links { get; set; }
 
     
 

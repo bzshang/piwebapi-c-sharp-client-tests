@@ -17,7 +17,7 @@ namespace IO.Swagger.Model {
     /// <summary>
     /// Gets or Sets WebId
     /// </summary>
-    [DataMember(Name="webId", EmitDefaultValue=false)]
+    [DataMember(Name="WebId", EmitDefaultValue=false)]
     public string WebId { get; set; }
 
     
@@ -67,7 +67,7 @@ namespace IO.Swagger.Model {
     /// Gets or Sets Links
     /// </summary>
     [DataMember(Name="Links", EmitDefaultValue=false)]
-    public Links Links { get; set; }
+    public UnitClassLinks Links { get; set; }
 
     
 

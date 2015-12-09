@@ -1,0 +1,3775 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: PI Web API 2015 R3 Swagger definition
+basePath: /piwebapi
+schemes:
+  - https
+#consumes:
+#  - application/json
+#produces:
+#  - application/json
+paths:
+  '/':
+    get:
+      tags:
+        - System
+      summary: Get top level links for this PI System Web API instance.
+      operationId: Home
+      responses:
+        '200':
+          description: Links to top level collections and system information.
+          schema:
+            $ref: '#/definitions/HomeLinks'      
+  '/assetdatabases/{webId}':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve an Asset Database.
+      operationId: GetAssetDatabase
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified database.
+          schema:
+            $ref: '#/definitions/AssetDatabase'
+    patch:
+      tags:
+        - AssetDatabases
+      summary: Update an asset database by replacing items in its definition.
+      operationId: UpdateAssetDatabase
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial database containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/AssetDatabase'
+      responses:
+        '204':
+          description: The database was updated.
+    delete:
+      tags:
+        - AssetDatabases
+      summary: Delete an asset database.
+      operationId: DeleteAssetDatabase
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The database was deleted.
+  /assetdatabases:
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve an Asset Database by path.
+      operationId: GetByPathAssetDatabase
+      parameters:
+        - in: query
+          name: path
+          description: The path to the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified database.
+          schema:
+            $ref: '#/definitions/AssetDatabase'
+  '/assetdatabases/{webId}/attributecategories':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve attribute categories for a given Asset Database.
+      operationId: GetAttributeCategories
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The attribute categories that exist in the database.
+          schema:
+            $ref: '#/definitions/Categories'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create an attribute category at the Asset Database root.
+      operationId: CreateAttributeCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database in which to create the attribute category.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new attribute category definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '201':
+          description: The attribute category was created.
+          headers:
+            Location:
+              description: A link to the attribute category.
+              type: string
+  '/assetdatabases/{webId}/elements':
+    get:
+      tags:
+        - AssetDatabases
+      summary: 'Retrieve elements based on the specified conditions. By default, this method selects immediate children of the current resource.'
+      operationId: GetElements
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the resource to use as the root of the search.
+          required: true
+          type: string
+        - in: query
+          name: nameFilter
+          description: The name query string used for finding objects. The default is no filter.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: categoryName
+          description: Specify that returned elements must have this category. The default is no category filter.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: templateName
+          description: Specify that returned elements must have this template or a template derived from this template. The default is no template filter.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: elementType
+          description: "Specify that returned elements must have this type. The default type is 'Any'."
+          required: false
+          type: string
+          enum:
+            - None
+            - Other
+            - Node
+            - Measurement
+            - Flow
+            - Transfer
+            - Boundary
+            - PIPoint
+            - Any
+          default: Any
+        - in: query
+          name: searchFullHierarchy
+          description: "Specifies if the search should include objects nested further than the immediate children of the searchRoot. The default is 'false'."
+          required: false
+          type: boolean
+          default: false
+        - in: query
+          name: sortField
+          description: "The field or property of the object used to sort the returned collection. The default is 'Name'."
+          required: false
+          type: string
+          default: Name
+        - in: query
+          name: sortOrder
+          description: "The order that the returned collection is sorted. The default is 'Ascending'."
+          required: false
+          type: string
+          default: Ascending
+        - in: query
+          name: startIndex
+          description: The starting index (zero based) of the items to be returned. The default is 0.
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: maxCount
+          description: The maximum number of objects to be returned per call (page size). The default is 1000.
+          required: false
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          description: A list of elements matching the specified conditions.
+          schema:
+            $ref: '#/definitions/Elements'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create a child element.
+      operationId: CreateElement
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the parent on which to create the element.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new element definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Element'
+      responses:
+        '201':
+          description: The element was created.
+          headers:
+            Location:
+              description: A link to the element.
+              type: string
+  '/assetdatabases/{webId}/elementcategories':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve element categories for a given Asset Database.
+      operationId: GetElementCategories
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The element categories that exist in the database.
+          schema:
+            $ref: '#/definitions/Categories'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create an element category at the Asset Database root.
+      operationId: CreateElementCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database in which to create the element category.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new element category definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '201':
+          description: The element category was created.
+          headers:
+            Location:
+              description: A link to the element category.
+              type: string
+  '/assetdatabases/{webId}/elementtemplates':
+    get:
+      tags:
+        - AssetDatabases
+      summary: 'Retrieve element templates based on the specified criteria. By default, all element templates in the specified Asset Database are returned.'
+      operationId: GetElementTemplates
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database to search.
+          required: true
+          type: string
+        - in: query
+          name: query
+          description: The query string used for finding objects. The default is no query string.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: field
+          description: "Specifies which of the object's properties are searched. The default is 'Name'."
+          required: false
+          type: string
+          default: Name
+        - in: query
+          name: sortField
+          description: "The field or property of the object used to sort the returned collection. The default is 'Name'."
+          required: false
+          type: string
+          default: Name
+        - in: query
+          name: sortOrder
+          description: "The order that the returned collection is sorted. The default is 'Ascending'."
+          required: false
+          type: string
+          default: Ascending
+        - in: query
+          name: maxCount
+          description: The maximum number of objects to be returned per call (page size). The default is 1000.
+          required: false
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          description: A list of element templates matching the specified condition.
+          schema:
+            $ref: '#/definitions/ElementTemplates'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create an element template at the Asset Database root.
+      operationId: CreateElementTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database in which to create the element template.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new element template definition.
+          required: true
+          schema:
+            $ref: '#/definitions/ElementTemplate'
+      responses:
+        '201':
+          description: The element template was created.
+          headers:
+            Location:
+              description: A link to the element template.
+              type: string
+  '/assetdatabases/{webId}/enumerationsets':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve enumeration sets for given asset database.
+      operationId: GetEnumerationSets
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration sets.
+          schema:
+            $ref: '#/definitions/EnumerationSets'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create an enumeration set at the Asset Database.
+      operationId: CreateEnumerationSet
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database in which to create the enumeration set.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new enumeration set definition.
+          required: true
+          schema:
+            $ref: '#/definitions/EnumerationSet'
+      responses:
+        '201':
+          description: The enumeration set was created.
+          headers:
+            Location:
+              description: A link to the enumeration set.
+              type: string
+  '/assetdatabases/{webId}/eventframes':
+    get:
+      tags:
+        - AssetDatabases
+      summary: 'Retrieve event frames based on the specified conditions. By default, returns all children of the specified root resource with a start time in the past 8 hours.'
+      operationId: GetEventFrames
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the resource to use as the root of the search.
+          required: true
+          type: string
+        - in: query
+          name: searchMode
+          description: "Determines how the startTime and endTime parameters are treated when searching for event frame objects to be included in the returned collection. If this parameter is one of the 'Backward*' or 'Forward*' values, none of endTime, sortField, or sortOrder may be specified. The default is 'Overlapped'."
+          required: false
+          type: string
+          enum:
+            - None
+            - StartInclusive
+            - EndInclusive
+            - Inclusive
+            - Overlapped
+            - InProgress
+            - BackwardFromStartTime
+            - ForwardFromStartTime
+            - BackwardFromEndTime
+            - ForwardFromEndTime
+            - BackwardInProgress
+            - ForwardInProgress
+          default: Overlapped
+        - in: query
+          name: startTime
+          description: "The starting time for the search. startTime must be less than or equal to the endTime. The searchMode parameter will control whether the comparison will be performed against the event frame's startTime or endTime. The default is '*-8h'."
+          required: false
+          type: string
+          default: '*-8h'
+        - in: query
+          name: endTime
+          description: "The ending time for the search. The endTime must be greater than or equal to the startTime. The searchMode parameter will control whether the comparison will be performed against the event frame's startTime or endTime. The default is '*' if searchMode is not one of the 'Backward*' or 'Forward*' values."
+          required: false
+          type: string
+          default: '*'
+        - in: query
+          name: nameFilter
+          description: The name query string used for finding objects. The default is no filter.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: referencedElementNameFilter
+          description: The name query string which must match the name of a referenced element. The default is no filter.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: categoryName
+          description: Specify that returned event frames must have this category. The default is no category filter.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: templateName
+          description: Specify that returned event frames must have this template or a template derived from this template. The default is no template filter. Specify this parameter by name.
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: referencedElementTemplateName
+          description: "Specify that returned event frames must have an element in the event frame's referenced elements collection that derives from the template. Specify this parameter by name."
+          required: false
+          type: string
+          default: ''
+        - in: query
+          name: searchFullHierarchy
+          description: "Specifies if the search should include objects nested further than the immediate children of the searchRoot. The default is 'false'."
+          required: false
+          type: boolean
+          default: false
+        - in: query
+          name: sortField
+          description: "The field or property of the object used to sort the returned collection. The default is 'Name'."
+          required: false
+          type: string
+          default: Name
+        - in: query
+          name: sortOrder
+          description: "The order that the returned collection is sorted. The default is 'Ascending'."
+          required: false
+          type: string
+          default: Ascending
+        - in: query
+          name: startIndex
+          description: The starting index (zero based) of the items to be returned. The default is 0.
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: maxCount
+          description: The maximum number of objects to be returned per call (page size). The default is 1000.
+          required: false
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          description: A list of event frames matching the specified conditions.
+          schema:
+            $ref: '#/definitions/EventFrames'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create an event frame as a child of the specified parent.
+      operationId: CreateEventFrame
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the parent on which to create the event frame.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new event frame definition.
+          required: true
+          schema:
+            $ref: '#/definitions/EventFrame'
+      responses:
+        '201':
+          description: 'The event frame was created.'
+          headers:
+            Location:
+              description: A link to the event frame.
+              type: string
+  '/assetdatabases/{webId}/tables':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve tables for given Asset Database.
+      operationId: GetTables
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The tables on the specified database.
+          schema:
+            $ref: '#/definitions/Tables'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create a table on the Asset Database.
+      description: Create a table on the Asset Database.
+      operationId: CreateTable
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the parent on which to create the table.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new table definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Table'
+      responses:
+        '201':
+          description: The table was created.
+  '/assetdatabases/{webId}/tablecategories':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Retrieve table categories for a given Asset Database.
+      operationId: GetTableCategories
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The table categories on the specified database.
+          schema:
+            $ref: '#/definitions/Categories'
+    post:
+      tags:
+        - AssetDatabases
+      summary: Create a table category on the Asset Database.
+      operationId: CreateTableCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database in which to create the table category.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new table category definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '201':
+          description: The table category was created.
+  '/assetdatabases/{webId}/export':
+    get:
+      tags:
+        - AssetDatabases
+      summary: Export the asset database.
+      operationId: ExportDatabase
+      produces:
+        - application/xml
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the database.
+          required: true
+          type: string
+        - in: query
+          name: exportMode
+          description: Indicates the type of export to perform.
+          required: false
+          default: ['StrongReferences']
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - in: query
+          name: startTime
+          description: 'The earliest starting time for AFEventFrame, AFTransfer, and AFCase objects that may be part of the export.'
+          required: false
+          type: string
+        - in: query
+          name: endTime
+          description: 'The latest ending time for AFEventFrame, AFTransfer, and AFCase objects that may be part of the export.'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Database exported. The response body contains the serialized database.
+          schema:
+            type: string
+  '/assetdatabases/{webId}/import':
+    post:
+      tags:
+        - AssetDatabases
+      summary: Import an asset database.
+      operationId: ImportDatabase
+      consumes:
+        - text/xml
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the asset server.
+          required: true
+          type: string
+        - in: query
+          name: importMode
+          description: "Indicates the type of import to perform. The default is 'AllowCreate | AllowUpdate | AutoCheckIn'. Multiple import modes may be specified by using multiple instances of importMode."
+          required: false
+          default: ['AllowCreate | AllowUpdate | AutoCheckIn']
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - in: formData
+          name: text/xml
+          description: The XML of AF database
+          required: true
+          type: file
+      responses:
+        '200':
+          description: Database imported.
+  '/assetservers':
+    get:
+      tags: 
+        - AssetServers
+      summary: Retrieve a list of all Asset Servers known to this service.
+      operationId: ListAssetServers
+      responses:
+        '200':
+          description: A list of servers.
+          schema:
+            $ref: '#/definitions/AssetServers'
+  '/assetservers/{webId}':
+    get:
+      tags: 
+        - AssetServers
+      summary: Retrieve an Asset Server.
+      operationId: GetAssetServer
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the asset server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested server.
+          schema:
+            $ref: '#/definitions/AssetServer'
+  '/assetservers':
+    get:
+      tags: 
+        - AssetServers
+      summary: Retrieve an Asset Server by path.
+      operationId: GetByPathAssetServer
+      parameters:
+        - in: query
+          name: path
+          description: The path to the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested server.
+          schema:
+            $ref: '#/definitions/AssetServer'
+  '/assetservers':
+    get:
+      tags: 
+        - AssetServers
+      summary: Retrieve an Asset Server by name.
+      operationId: GetByNameAssetServer
+      parameters:
+        - in: query
+          name: name
+          description: The name of the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested server.
+          schema:
+            $ref: '#/definitions/AssetServer'
+  '/assetservers/{webId}/assetdatabases':
+    get:
+      tags: 
+        - AssetServers    
+      summary: Retrieve a list of all Asset Databases on the specified Asset Server.
+      operationId: GetDatabases
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of databases.
+          schema:
+            $ref: '#/definitions/AssetDatabases'
+    post:
+      tags: 
+        - AssetServers
+      summary: Create an asset database.
+      operationId: CreateAssetDatabase
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the asset server on which to create the database.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new database definition.
+          required: true
+          schema:
+            $ref: '#/definitions/AssetDatabase'
+      responses:
+        '201':
+          description: The database was created.
+          headers:
+            Location:
+              description: A link to the database.
+              type: string
+  '/assetservers/{webId}/unitclasses':
+    get:
+      tags: 
+        - AssetServers    
+      summary: Retrieve a list of all unit classes on the specified Asset Server.
+      operationId: GetUnitClasses
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of unit classes.
+          schema:
+            $ref: '#/definitions/UnitClasses'
+    post:
+      tags: 
+        - AssetServers
+      summary: Create a unit class in the specified Asset Server.
+      operationId: CreateUnitClass
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the asset server on which to create the database.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new unit class definition.
+          required: true
+          schema:
+            $ref: '#/definitions/UnitClass'
+      responses:
+        '201':
+          description: The unit class was created.
+          headers:
+            Location:
+              description: A link to the unit class.
+              type: string
+  '/attributes/{webId}':
+    get:
+      tags: 
+        - Attribute    
+      summary: Retrieve an attribute.
+      operationId: GetAttribute
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested attribute.
+          schema:
+            $ref: '#/definitions/Attribute'
+    patch:
+      tags:
+        - Attribute
+      summary: Update an attribute by replacing items in its definition.
+      description: If an attribute is based on a template, the user must make sure to update the attribute appropriately so that it does not conflict with the template's design. Once a template is applied to an attribute, it can not be changed.
+      operationId: UpdateAttribute
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute.
+          required: true
+          type: string      
+        - in: body
+          name: body
+          description: A partial attribute containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Attribute'
+      responses:
+        '201':
+          description: The attribute was updated.
+    delete:
+      tags:
+        - Attribute
+      summary: Delete an attribute.
+      operationId: DeleteAttribute
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute.
+          required: true
+          type: string      
+      responses:
+        '204':
+          description: The attribute was deleted.
+  '/attributes/{webId}/categories':
+    get:
+      tags: 
+        - Attribute    
+      summary: Get an attribute's categories.
+      operationId: GetCategories
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of categories.
+          schema:
+            $ref: '#/definitions/Categories'
+  '/attributes/{webId}/value':
+    get:
+      tags: 
+        - Attribute    
+      summary: Get the attribute's value. This call is intended for use with attributes that have no data reference only. For attributes with a data reference, consult the documentation for Streams.
+      operationId: GetValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The attribute's value.
+          schema:
+            $ref: '#/definitions/TimedValue'
+    put:
+      tags: 
+        - Attribute    
+      summary: Set the value of a configuration item attribute. For attributes with a data reference or non-configuration item attributes, consult the documentation for Streams.
+      operationId: SetValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The value to write.
+          required: true
+          schema:
+            $ref: '#/definitions/TimedValue'
+      responses:
+        '204':
+          description: The value was set successfully.
+
+  '/attributes':
+    get:
+      tags: 
+        - Attribute    
+      summary: Retrieve an attribute by path.
+      operationId: GetByPathAttribute
+      parameters:
+        - in: query
+          name: path
+          description: The path to the attribute.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested attribute.
+          schema:
+            $ref: '#/definitions/Attribute'
+  '/attributes/{webId}/attributes':
+    get:
+      tags: 
+        - Attributes    
+      summary: Get the child attributes of the current resource.
+      operationId: GetAttributes
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the parent resource. 
+          required: true
+          type: string
+        - in: query
+          name: nameFilter
+          description: The name query string used for finding attributes. The default is no filter.
+          required: false
+          type: string
+          default: ""
+        - in: query
+          name: categoryName
+          description: Specify that returned attributes must have this category. The default is no filter.
+          required: false
+          type: string
+          default: ""
+        - in: query
+          name: templateName
+          description: Specify that returned attributes must be members of this template. The default is no filter.
+          required: false
+          type: string
+          default: ""
+        - in: query
+          name: valueType
+          description: Specify that returned attributes' value type must be the given value type. The default is no filter.
+          required: false
+          type: string
+          default: ""
+        - in: query
+          name: searchFullHierarchy
+          description: Specifies if the search should include attributes nested further than the immediate attributes of the searchRoot. The default is 'false'.
+          required: false
+          type: boolean
+          default: false
+        - in: query
+          name: sortField
+          description: The field or property of the object used to sort the returned collection. The default is no filter. The default is 'Name'.
+          required: false
+          type: string
+          default: "Name"
+        - in: query
+          name: sortOrder
+          description: The order that the returned collection is sorted. The default is 'Ascending'.
+          required: false
+          type: string
+          default: "Ascending"
+        - in: query
+          name: startIndex
+          description: The starting index (zero based) of the items to be returned. The default is 0.
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: showExcluded
+          description: Specified if the search should include attributes with the Excluded property set. The default is 'false'.
+          required: false
+          type: boolean
+          default: false
+        - in: query
+          name: showHidden
+          description: Specified if the search should include attributes with the Hidden property set. The default is 'false'.
+          required: false
+          type: boolean
+          default: false
+        - in: query
+          name: maxCount
+          description: The maximum number of objects to be returned per call (page size). The default is 1000.
+          required: false
+          type: integer
+          default: 1000
+      responses:
+        '200':
+          description: A list of child attributes.
+          schema:
+            $ref: '#/definitions/Attributes'
+    post:
+      tags: 
+        - Attribute    
+      summary: Create a new attribute as a child of this resource.
+      operationId: CreateAttribute
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the parent resource on which to create the attribute. 
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The definition of the new attribute.
+          required: true
+          schema:
+            $ref: '#/definitions/Attribute'
+      responses:
+        '201':
+          description: The attribute was created. The response's Location header is a link to the created attribute.
+          headers:
+            Location:
+              description: A link to the attribute.
+              type: string
+  '/attributes/{webId}/config':
+    post:
+      tags: 
+        - Attribute    
+      summary: Create or update an attribute's DataReference configuration (Create/Update PI point for PI Point DataReference).
+      operationId: CreateConfig
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute. 
+          required: true
+          type: string
+      responses:
+        '201':
+          description: The attribute's DataReference configuration was created or updated.
+  '/attributecategories/{webId}':
+    get:
+      tags: 
+        - AttributeCategory    
+      summary: Retrieve an attribute category.
+      operationId: GetAttributeCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute category.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified attribute category.
+          schema:
+            $ref: '#/definitions/Category'
+    patch:
+      tags: 
+        - AttributeCategory    
+      summary: Update an attribute category by replacing items in its definition.
+      operationId: UpdateAttributeCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute category.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial attribute category containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '204':
+          description: The attribute category was updated.
+    delete:
+      tags: 
+        - AttributeCategory    
+      summary: Delete an attribute category.
+      operationId: DeleteAttributeCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute category to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The attribute category was deleted.
+  '/attributecategories':
+    get:
+      tags: 
+        - AttributeCategory    
+      summary: Retrieve an attribute category by path.
+      operationId: GetByPathAttributeCategory
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target attribute category.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified attribute category.
+          schema:
+            $ref: '#/definitions/Category'
+  '/attributetemplates/{webId}':
+    get:
+      tags: 
+        - AttributeTemplate    
+      summary: Retrieve an attribute template.
+      operationId: GetAttributeTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute template.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified attribute template.
+          schema:
+            $ref: '#/definitions/AttributeTemplate'
+    patch:
+      tags: 
+        - AttributeTemplate    
+      summary: Update an attribute template by replacing items in its definition.
+      operationId: UpdateAttributeTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute template.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial attribute template containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/AttributeTemplate'
+      responses:
+        '204':
+          description: The attribute template was updated.
+    delete:
+      tags: 
+        - AttributeTemplate    
+      summary: Delete an attribute template.
+      operationId: DeleteAttributeTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute template to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The attribute template was deleted.
+  '/attributetemplates':
+    get:
+      tags: 
+        - AttributeTemplate    
+      summary: Retrieve an attribute template by path.
+      operationId: GetByPathAttributeTemplate
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target attribute template.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified attribute template.
+          schema:
+            $ref: '#/definitions/AttributeTemplate'            
+  '/attributetemplates/{webId}/attributetemplates':
+    get:
+      tags: 
+        - AttributeTemplate    
+      summary: Retrieve an attribute template's child attribute templates.
+      operationId: GetAttributeTemplates
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the attribute template. 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of child attribute templates. 
+          schema:
+            $ref: '#/definitions/AttributeTemplates'
+    post:
+      tags: 
+        - AttributeTemplate    
+      summary: Create an attribute template as a child of another attribute template.
+      operationId: CreateAttributeTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the parent attribute template on which to create the attribute template. 
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The attribute template definition.
+          required: true
+          schema:
+            $ref: '#/definitions/AttributeTemplate'
+      responses:
+        '201':
+          description: The attribute template was created. The response's Location header is a link to the created resource.   
+  '/calculation/intervals':
+    get:
+      tags:
+        - Calculation
+      summary: Returns results of evaluating the expression over the time range from the start time to the end time at a defined interval.
+      operationId: GetAtIntervals
+      parameters:
+        - in: query
+          name: webId
+          description: The ID of the target object of the expression. A target object can be a Data Server, a database, an element, an event frame or an attribute. References to attributes or points are based on the target. If this parameter is not provided, the target object is set to null.
+          required: true
+          type: string
+        - in: query
+          name: expression
+          description: A string containing the expression to be evaluated. The syntax for the expression generally follows the Performance Equation syntax as described in the PI Server documentation, with the exception that expressions which target AF objects use attribute names in place of tag names in the equation.
+          required: true
+          type: string
+        - in: query
+          name: startTime
+          description: An optional start time. The default is '*-1d' for element attributes and points. For event frame attributes, the default is the event frame's start time, or '*-1d' if that is not set.
+          required: false
+          type: string
+        - in: query
+          name: endTime
+          description: An optional end time. The default is '*' for element attributes and points. For event frame attributes, the default is the event frame's end time, or '*' if that is not set. Note that if endTime is earlier than startTime, the resulting values will be in time-descending order.
+          required: false
+          type: string
+        - in: query
+          name: sampleInterval
+          description: A time span specifies how often the filter expression is evaluated when computing the summary for an interval.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The calculated values.
+          schema:
+            $ref: '#/definitions/TimedValues'   
+        '409':
+          description: The targeted object does not support the calculation.
+  '/calculation/recorded':
+    get:
+      tags:
+        - Calculation
+      summary: Returns the result of evaluating the expression at each point in time over the time range from the start time to the end time where a recorded value exists for a member of the expression.
+      operationId: GetAtRecorded
+      parameters:
+        - in: query
+          name: webId
+          description: The ID of the target object of the expression. A target object can be a Data Server, a database, an element, an event frame or an attribute. References to attributes or points are based on the target. If this parameter is not provided, the target object is set to null.
+          required: true
+          type: string
+        - in: query
+          name: expression
+          description: A string containing the expression to be evaluated. The syntax for the expression generally follows the Performance Equation syntax as described in the PI Server documentation, with the exception that expressions which target AF objects use attribute names in place of tag names in the equation.
+          required: true
+          type: string
+        - in: query
+          name: startTime
+          description: An optional start time. The default is '*-1d' for element attributes and points. For event frame attributes, the default is the event frame's start time, or '*-1d' if that is not set.
+          required: false
+          type: string
+        - in: query
+          name: endTime
+          description: An optional end time. The default is '*' for element attributes and points. For event frame attributes, the default is the event frame's end time, or '*' if that is not set. Note that if endTime is earlier than startTime, the resulting values will be in time-descending order.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: The calculated values.
+          schema:
+            $ref: '#/definitions/TimedValues'   
+        '409':
+          description: The targeted object does not support the calculation.
+  '/calculation/times':
+    get:
+      tags:
+        - Calculation
+      summary: Returns the result of evaluating the expression at each point in time over the time range from the start time to the end time where a recorded value exists for a member of the expression.
+      operationId: GetAtTimes
+      parameters:
+        - in: query
+          name: webId
+          description: The ID of the target object of the expression. A target object can be a Data Server, a database, an element, an event frame or an attribute. References to attributes or points are based on the target. If this parameter is not provided, the target object is set to null.
+          required: true
+          type: string
+        - in: query
+          name: expression
+          description: A string containing the expression to be evaluated. The syntax for the expression generally follows the Performance Equation syntax as described in the PI Server documentation, with the exception that expressions which target AF objects use attribute names in place of tag names in the equation.
+          required: true
+          type: string
+        - in: query
+          name: time
+          description: A list of timestamps at which to calculate the expression.
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+        - in: query
+          name: sortOrder
+          description: The order that the returned collection is sorted. The default is 'Ascending'.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: The calculated values.
+          schema:
+            $ref: '#/definitions/TimedValues'   
+        '409':
+          description: The targeted object does not support the calculation.
+  '/calculation/summary':
+    get:
+      tags:
+        - Calculation
+      summary: Returns the result of evaluating the expression over the time range from the start time to the end time. The time range is first divided into a number of summary intervals. Then the calculation is performed for the specified summaries over each interval.
+      operationId: GetSummary
+      parameters:
+        - in: query
+          name: webId
+          description: The ID of the target object of the expression. A target object can be a Data Server, a database, an element, an event frame or an attribute. References to attributes or points are based on the target. If this parameter is not provided, the target object is set to null.
+          required: true
+          type: string
+        - in: query
+          name: expression
+          description: A string containing the expression to be evaluated. The syntax for the expression generally follows the Performance Equation syntax as described in the PI Server documentation, with the exception that expressions which target AF objects use attribute names in place of tag names in the equation.
+          required: true
+          type: string
+        - in: query
+          name: startTime
+          description: An optional start time. The default is '*-1d' for element attributes and points. For event frame attributes, the default is the event frame's start time, or '*-1d' if that is not set.
+          required: false
+          type: string
+        - in: query
+          name: endTime
+          description: An optional end time. The default is '*' for element attributes and points. For event frame attributes, the default is the event frame's end time, or '*' if that is not set. Note that if endTime is earlier than startTime, the resulting values will be in time-descending order.
+          required: false
+          type: string
+        - in: query
+          name: summaryType
+          description: Specifies the kinds of summaries to produce over the range. The default is 'Total'. Multiple summary types may be specified by using multiple instances of summaryType. 
+          required: false
+          type: string
+        - in: query
+          name: calculationBasis
+          description: Specifies the method of evaluating the data over the time range. The default is 'TimeWeighted'.
+          required: false
+          type: string
+        - in: query
+          name: timeType
+          description: Specifies how to calculate the timestamp for each interval. The default is 'Auto'. 
+          required: false
+          type: string
+        - in: query
+          name: summaryDuration
+          description: The duration of each summary interval. 
+          required: false
+          type: string
+        - in: query
+          name: sampleType
+          description: A flag which specifies one or more summaries to compute for each interval over the time range. The default is 'ExpressionRecordedValues'.
+          required: false
+          type: string
+        - in: query
+          name: sampleInterval
+          description: A time span specifies how often the filter expression is evaluated when computing the summary for an interval, if the sampleType is 'Interval'.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: The calculated values.
+          schema:
+            $ref: '#/definitions/SummaryValues'   
+        '409':
+          description: The targeted object does not support the calculation.
+  '/system/configuration':
+    get:
+      tags:
+        - Configuration
+      summary: Get the current system configuration.
+      operationId: List
+      responses:
+        '200':
+          description: The current system configuration.
+          schema:
+            $ref: '#/definitions/Configuration'     
+#  '/system/configuration/{key}':
+#    get:
+#      tags:
+#        - Configuration
+#      summary: Get the value of a configuration item.
+#      operationId: GetConfigurationValue
+#      parameters:
+#        - in: path
+#          name: key
+#          description: The key of the configuration item.
+#          required: true
+#          type: string
+#      responses:
+#        '200':
+#          description: The current system configuration.
+#          schema:
+#            type: string
+#        '404':
+#          description: The configuration item does not exist.
+  '/system/configuration/authenticationmethods':
+    get:
+      tags:
+        - Configuration
+      summary: Get the authentication methods.
+      operationId: GetAuthenticationMethods
+      responses:
+        '200':
+          description: The authentication methods.
+          schema:
+            type: array
+            items:
+              type: string
+    put:
+      tags:
+        - Configuration
+      summary: Set the authentication methods.
+      operationId: CreateOrUpdateAuthenticationMethods
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.              
+  '/system/configuration/corsheaders':
+    get:
+      tags:
+        - Configuration
+      summary: Get the CORS headers.
+      operationId: GetCORSHeaders
+      responses:
+        '200':
+          description: The CORS headers.
+          schema:
+            type: string
+    put:
+      tags:
+        - Configuration
+      summary: Set the CORS headers.
+      operationId: CreateOrUpdateCORSHeaders
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.            
+  '/system/configuration/corsmethods':
+    get:
+      tags:
+        - Configuration
+      summary: Get the CORS methods.
+      operationId: GetCORSMethods
+      responses:
+        '200':
+          description: The CORS methods.
+          schema:
+            type: string
+    put:
+      tags:
+        - Configuration
+      summary: Set the CORS methods.
+      operationId: CreateOrUpdateCORSMethods
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.            
+  '/system/configuration/corsorigins':
+    get:
+      tags:
+        - Configuration
+      summary: Get the CORS origins.
+      operationId: GetCORSOrigins
+      responses:
+        '200':
+          description: The CORS origins.
+          schema:
+            type: string
+    put:
+      tags:
+        - Configuration
+      summary: Set the CORS origins.
+      operationId: CreateOrUpdateCORSOrigins
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.            
+  '/system/configuration/corssupportscredentials':
+    get:
+      tags:
+        - Configuration
+      summary: Get CORS credentials support.
+      operationId: GetCORSSupportsCredentials
+      responses:
+        '200':
+          description: CORS credentials support.
+          schema:
+            type: boolean
+    put:
+      tags:
+        - Configuration
+      summary: Set CORS credentials support.
+      operationId: CreateOrUpdateCORSCredentialsSupport
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.            
+  '/system/configuration/disablewrites':
+    get:
+      tags:
+        - Configuration
+      summary: Disable writes status.
+      operationId: GetDisableWrites
+      responses:
+        '200':
+          description: Disable writes status.
+          schema:
+            type: boolean
+    put:
+      tags:
+        - Configuration
+      summary: Set disable writes status.
+      operationId: CreateOrUpdateDisableWrites
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.            
+  '/system/configuration/searchboosts':
+    get:
+      tags:
+        - Configuration
+      summary: Get search boosts.
+      operationId: GetSearchBoosts
+      responses:
+        '200':
+          description: Get search boosts.
+          schema:
+            type: array
+            items:
+              type: number
+              format: float
+    put:
+      tags:
+        - Configuration
+      summary: Set search boosts.
+      operationId: CreateOrUpdateSearchBoosts
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: array
+            items:
+              type: number
+              format: float
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.              
+  '/system/configuration/searchpointattributes':
+    get:
+      tags:
+        - Configuration
+      summary: Get search point attributes.
+      operationId: GetSearchPointAttributes
+      responses:
+        '200':
+          description: Get search point attributes.
+          schema:
+            type: array
+            items:
+              type: string
+    put:
+      tags:
+        - Configuration
+      summary: Set search point attributes.
+      operationId: CreateOrUpdateSearchPointAttributes
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.
+  '/system/configuration/searchscaninterval':
+    get:
+      tags:
+        - Configuration
+      summary: Get search scan interval.
+      operationId: GetSearchScanInterval
+      responses:
+        '200':
+          description: Get search scan interval.
+          schema:
+            type: integer
+    put:
+      tags:
+        - Configuration
+      summary: Set search scan interval.
+      operationId: CreateOrUpdateSearchScanInterval
+      parameters:
+        - in: body
+          name: value
+          description: The value of the configuration item.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '409':
+          description: The configuration item already exists, but its value is of a different type than the provided value.            
+  '/system/configuration/{key}':
+    delete:
+      tags:
+        - Configuration
+      summary: Delete a configuration item.
+      operationId: DeleteConfigurationValue
+      parameters:
+        - in: path
+          name: key
+          description: The key of the configuration item.
+          required: true
+          type: string
+      responses:
+        '202':
+          description: The change has been accepted, and will take effect when the service can cleanly restart.
+        '404':
+          description: The configuration item does not exist.
+        '500':
+          description: An internal error is preventing deletion of the configuration item.
+#    put:
+#      tags:
+#        - Configuration
+#      summary: Create or update a configuration item.
+#      operationId: CreateOrUpdateConfigurationValue
+#      parameters:
+#        - in: path
+#          name: key
+#          description: The key of the configuration item to create or update.
+#          required: true
+#          type: string
+#        - in: body
+#          name: value
+#          description: The value of the configuration item.
+#          required: true
+#          schema:
+#            type: string
+#      responses:
+#        '202':
+#          description: The change has been accepted, and will take effect when the service can cleanly restart.
+#        '409':
+#          description: The configuration item already exists, but its value is of a different type than the provided value.
+  '/dataservers':
+    get:
+      tags:
+        - DataServer
+      summary: Retrieve a list of Data Servers known to this service.
+      description: This method returns a list of all available known Data Servers that the user can connect to. Even though a server may be returned in the list, the user may not have permission to access it.
+      operationId: GetDataServer
+      responses:
+        '200':
+          description: A list of all known servers.
+          schema:
+            $ref: '#/definitions/DataServers'
+    get:
+      tags:
+        - DataServer
+      summary: Retrieve a Data Server by path.
+      description: This method returns a data server based on the hierarchical path associated with it, and should be used when a path has been received from a separate part of the PI System for use in the PI Web API. Users should primarily search with the WebID when available.
+      operationId: GetByPathDataServer
+      parameters:
+        - in: query
+          name: path
+          description: The path to the server. Note that the path supplied to this method must be of the form '\\servername'.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested server.
+          schema:
+            $ref: '#/definitions/DataServer'
+    get:
+      tags:
+        - DataServer
+      summary: Retrieve a Data Server by name.
+      description: This method returns a data server based on the name. Users should primarily search with the WebID when available.
+      operationId: GetByName
+      parameters:
+        - in: query
+          name: name
+          description: The name of the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested server.
+          schema:
+            $ref: '#/definitions/DataServer'
+  '/dataservers/{webId}':
+    get:
+      tags:
+        - DataServer
+      summary: Retrieve a Data Server.
+      operationId: GetDataServer
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The requested server.
+          schema:
+            $ref: '#/definitions/DataServer'
+  '/dataservers/{webId}/enumerationsets':
+    get:
+      tags:
+        - DataServer
+      summary: Retrieve enumeration sets for given Data Server.
+      operationId: GetEnumerationSetsOnDataServer
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration sets.
+          schema:
+            $ref: '#/definitions/EnumerationSetsDataServer'
+    post:
+      tags:
+        - DataServer
+      summary: Create an enumeration set on the Data Server.
+      operationId: CreateEnumerationSetOnDataServer
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server in which to create the enumeration set.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new enumeration set definition.
+          required: true
+          schema:
+            $ref: '#/definitions/EnumerationSet'
+      responses:
+        '201':
+          description: The enumeration set was created. The response's Location header is a link to the created enumeration set.
+          headers:
+            Location:
+              description: A link to the enumeration set.
+              type: string
+  '/dataservers/{webId}/points':
+    get:
+      tags:
+        - DataServer
+      summary: Retrieve enumeration sets for given Data Server.
+      operationId: GetPoints
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+        - in: query
+          name: nameFilter
+          description: A query string for filtering by point name. The default is no filter.
+          required: true
+          type: string
+        - in: query
+          name: startIndex
+          description: The starting index (zero based) of the items to be returned. The default is '0'.
+          required: true
+          type: string
+        - in: query
+          name: maxCount
+          description: The maximum number of objects to be returned per call (page size). The default is 1000.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of matching points.
+          schema:
+            $ref: '#/definitions/Points'
+    post:
+      tags:
+        - DataServer
+      summary: Create an enumeration set on the Data Server.
+      operationId: CreatePoint
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new point definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Point'
+      responses:
+        '201':
+          description: The point was created. The response's Location header is a link to the point.
+          headers:
+            Location:
+              description: A link to the PI point.
+              type: string
+  '/elementcategories/{webId}':
+    get:
+      tags: 
+        - ElementCategory    
+      summary: Retrieve an element category.
+      operationId: GetElementCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element category.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified element category.
+          schema:
+            $ref: '#/definitions/Category'
+    patch:
+      tags: 
+        - ElementCategory    
+      summary: Update an element category by replacing items in its definition.
+      operationId: UpdateElementCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element category.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial element category containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '204':
+          description: The element category was updated.
+    delete:
+      tags: 
+        - ElementCategory    
+      summary: Delete an element category.
+      operationId: DeleteElementCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element category to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The element category was deleted.
+  '/elementcategories':
+    get:
+      tags: 
+        - ElementCategory    
+      summary: Retrieve an element category by path.
+      operationId: GetByPathElementCategory
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target element category.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified element category.
+          schema:
+            $ref: '#/definitions/Category'
+  '/elementtemplates/{webId}':
+    get:
+      tags: 
+        - ElementTemplate    
+      summary: Retrieve an element template.
+      operationId: GetElementTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element template.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified element template.
+          schema:
+            $ref: '#/definitions/ElementTemplate'
+    patch:
+      tags: 
+        - ElementTemplate    
+      summary: Update an element template by replacing items in its definition.
+      operationId: UpdateElementTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element template.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial element template containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/ElementTemplate'
+      responses:
+        '204':
+          description: The element template was updated.
+    delete:
+      tags: 
+        - ElementTemplate    
+      summary: Delete an element template.
+      operationId: DeleteElementTemplate
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element template to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The element template was deleted.
+  '/elementtemplates':
+    get:
+      tags: 
+        - ElementTemplate    
+      summary: Retrieve an element template by path.
+      operationId: GetByPathElementTemplate
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target element template.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified element template.
+          schema:
+            $ref: '#/definitions/ElementTemplate'            
+  '/elementtemplates/{webId}/attributetemplates':
+    get:
+      tags: 
+        - ElementTemplate    
+      summary: Retrieve an element template's child attribute templates.
+      operationId: GetAttributeTemplatesForElement
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element template. 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of child attribute templates. 
+          schema:
+            $ref: '#/definitions/AttributeTemplates'
+    post:
+      tags: 
+        - ElementTemplate    
+      summary: Create an attribute template as a child of an element template.
+      operationId: CreateAttributeTemplateForElement
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the element template on which to create the attribute template.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The attribute template definition.
+          required: true
+          schema:
+            $ref: '#/definitions/AttributeTemplate'
+      responses:
+        '201':
+          description: The attribute template was created. The response's Location header is a link to the created resource.   
+          headers:
+            Location:
+              description: A link to the attribute template.
+              type: string
+  '/enumerationsets/{webId}':
+    get:
+      tags: 
+        - EnumerationSet    
+      summary: Retrieve an enumeration set.
+      operationId: GetEnumerationSet
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration set.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration sets.
+          schema:
+            $ref: '#/definitions/EnumerationSet'
+    patch:
+      tags: 
+        - EnumerationSet    
+      summary: Update an enumeration set by replacing items in its definition.
+      operationId: UpdateEnumerationSet
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration set to update.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial enumeration set containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/EnumerationSet'
+      responses:
+        '204':
+          description: The enumeration set was updated.
+    delete:
+      tags: 
+        - EnumerationSet    
+      summary: Delete an enumeration set.
+      operationId: DeleteEnumerationSet
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration set to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The enumeration set was deleted.
+  '/enumerationsets':
+    get:
+      tags: 
+        - EnumerationSet    
+      summary: Retrieve an enumeration set by path.
+      operationId: GetByPathEnumerationSet
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target enumeration set. 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration set. 
+          schema:
+            $ref: '#/definitions/EnumerationSet'  
+  '/enumerationsets/{webId}/enumerationvalues':
+    get:
+      tags: 
+        - EnumerationSet    
+      summary: Retrieve an enumeration set's values.
+      operationId: GetEnumerationValues
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration set.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration set's values.
+          schema:
+            $ref: '#/definitions/EnumerationValues'  
+    post:
+      tags:
+        - EnumerationSet
+      summary: Create an enumeration value for a enumeration set.
+      operationId: CreateEnumerationValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration set on which to create the enumeration value. 
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new enumeration value definition.
+          required: true
+          schema:
+            $ref: '#/definitions/EnumerationValue'
+      responses:
+        '201':
+          description: The enumeration value was created. The response's Location header is a link to the enumeration value.  
+          headers:
+            Location:
+              description: A link to the enumeration value.
+              type: string
+  '/enumerationvalues/{webId}':
+    get:
+      tags: 
+        - EnumerationValues    
+      summary: Retrieve an enumeration value mapping.
+      operationId: GetEnumerationValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration value. 
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration value mapping
+          schema:
+            $ref: '#/definitions/EnumerationValue'  
+  '/enumerationvalues':
+    get:
+      tags: 
+        - EnumerationValues    
+      summary: Retrieve an enumeration value by path.
+      operationId: GetByPathEnumerationValue
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target enumeration value.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified enumeration value.
+          schema:
+            $ref: '#/definitions/EnumerationValue'
+  '/enumerationvalues/{webId}':
+    delete:
+      tags:
+        - EnumerationValues
+      summary: Delete an enumeration value from an enumeration set.
+      operationId: DeleteEnumerationValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration value
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The enumeration value was deleted.
+    patch:
+      tags:
+        - EnumerationValues
+      summary: Update an enumeration value by replacing items in its definition.
+      operationId: UpdateEnumerationValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the enumeration value to update.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial enumeration value containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/EnumerationValue'
+      responses:
+        '204':
+          description: The enumeration set was updated.
+  '/points/{webId}':
+    get:
+      tags: 
+        - Point   
+      summary: Get a point. Sry, only one.
+      operationId: GetPoint
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the point.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified point.
+          schema:
+            $ref: '#/definitions/Point'
+    patch:
+      tags: 
+        - Point   
+      summary: Update a point.
+      operationId: UpdatePoint
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the point.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial point containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Point'
+      responses:
+        '204':
+          description: The point was updated.
+    delete:
+      tags: 
+        - Point    
+      summary: Delete a point.
+      operationId: DeletePoint
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the point.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The point was deleted.
+  '/points':
+    get:
+      tags: 
+        - Point    
+      summary: Get a point by path.
+      operationId: GetByPathPoint
+      parameters:
+        - in: query
+          name: path
+          description: The path to the point.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified point.
+          schema:
+            $ref: '#/definitions/Point'
+  '/points/{webId}/attributes/{name}':
+    get:
+      tags: 
+        - Point   
+      summary: Get a point attribute by name.
+      operationId: GetPointAttributeByName
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the point.
+          required: true
+          type: string
+        - in: path
+          name: name
+          description: The name of the attribute.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A point attribute specified by its name.
+          schema:
+            $ref: '#/definitions/PointAttribute'
+    put:
+      tags: 
+        - Point   
+      summary: Update a point attribute value.
+      operationId: UpdatePointAttributeValue
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the point.
+          required: true
+          type: string
+        - in: path
+          name: name
+          description: The name of the attribute to be updated.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new value of the attribute to be updated.
+          required: true
+          schema:
+            $ref: '#/definitions/PointAttribute'
+      responses:
+        '204':
+          description: The update operation was successfully applied. The response's Location header is a link that can be used to examine the result.
+          headers:
+            Location:
+              description: A link to the point attribute.
+              type: string
+  '/points/{webId}/attributes':
+    get:
+      tags: 
+        - Point   
+      summary: Get point attributes.
+      operationId: GetPointAttributes
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the point.
+          required: true
+          type: string
+        - in: query
+          name: nameFilter
+          description: The filter to the names of the list of point attributes to be returned. The default is no filter.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of point attributes based on the specified name filter.
+          schema:
+            $ref: '#/definitions/PointAttributes'
+  '/system/cacheinstances':
+    get:
+      tags: 
+        - System   
+      summary: Get AF cache instances currently in use by the system. These are caches from which user requests are serviced. The number of instances depends on the number of users connected to the service, the service's authentication method, and the cache instance configuration.
+      operationId: GetCacheInstances
+      responses:
+        '200':
+          description: Cache instance information.
+          schema:
+            $ref: '#/definitions/CacheInstances'
+  '/system':
+    get:
+      tags: 
+        - System   
+      summary: Get system links for this PI System Web API instance.
+      operationId: GetSystem
+      responses:
+        '200':
+          description: Links to top level collections and system information.
+          schema:
+            $ref: '#/definitions/System'
+  '/system/userinfo':
+    get:
+      tags: 
+        - System   
+      summary: Get information about the Windows identity used to fulfill the request. This depends on the service's authentication method and the credentials passed by the client.
+      operationId: GetUserInfo
+      responses:
+        '200':
+          description: Information about the current user.
+          schema:
+            $ref: '#/definitions/UserInfo'
+        '204':
+          description: No identity is present.
+  '/system/versions':
+    get:
+      tags: 
+        - System   
+      summary: Get the current versions of the PI Web API instance and all external plugins.
+      operationId: GetVersions
+      responses:
+        '200':
+          description: A dictionary of assembly name-version information pairs.
+          schema:
+            $ref: '#/definitions/Versions'
+  '/tables/{webId}':
+    get:
+      tags: 
+        - Table   
+      summary: Retrieve a table.
+      operationId: GetTable
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified table.
+          schema:
+            $ref: '#/definitions/Table'
+    patch:
+      tags: 
+        - Table   
+      summary: Update a table by replacing items in its definition.
+      operationId: UpdateTable
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table to update.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial table containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Table'
+      responses:
+        '204':
+          description: The table was updated.
+    delete:
+      tags: 
+        - Table    
+      summary: Delete a table.
+      operationId: DeleteTable
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The table was deleted.
+  '/tables':
+    get:
+      tags: 
+        - Point    
+      summary: Retrieve a table by path.
+      operationId: GetByPathTable
+      parameters:
+        - in: query
+          name: path
+          description: The path to the table.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified table.
+          schema:
+            $ref: '#/definitions/Table'
+  '/tables/{webId}/categories':
+    get:
+      tags: 
+        - Table   
+      summary: Get a table's categories.
+      operationId: GetTableCategoriesForTable
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A list of categories.
+          schema:
+            $ref: '#/definitions/Categories'
+  '/tablecategories/{webId}':
+    get:
+      tags: 
+        - TableCategory    
+      summary: Retrieve a table category.
+      operationId: GetTableCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table category.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified table category.
+          schema:
+            $ref: '#/definitions/Category'
+    patch:
+      tags: 
+        - TableCategory    
+      summary: Update an table category by replacing items in its definition.
+      operationId: UpdateTableCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table category.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial table category containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '204':
+          description: The table category was updated.
+    delete:
+      tags: 
+        - TableCategory    
+      summary: Delete an table category.
+      operationId: DeleteTableCategory
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the table category to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The table category was deleted.
+  '/tablecategories':
+    get:
+      tags: 
+        - TableCategory    
+      summary: Retrieve an table category by path.
+      operationId: GetByPathTableCategory
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target table category.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified table category.
+          schema:
+            $ref: '#/definitions/Category'
+  '/units/{webId}':
+    get:
+      tags: 
+        - Unit 
+      summary: Retrieve a unit.
+      operationId: GetUnit
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified unit.
+          schema:
+            $ref: '#/definitions/Unit'
+    patch:
+      tags: 
+        - Unit  
+      summary: Update a unit by replacing items in its definition.
+      operationId: UpdateUnit
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial unit containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/Unit'
+      responses:
+        '204':
+          description: The unit was updated.
+    delete:
+      tags: 
+        - Unit  
+      summary: Delete a unit.
+      operationId: DeleteUnit
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The unit was deleted.
+  '/units':
+    get:
+      tags: 
+        - Unit 
+      summary: Retrieve a unit by path.
+      operationId: GetByPathUnit
+      parameters:
+        - in: query
+          name: path
+          description: The path to the target unit.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified unit.
+          schema:
+            $ref: '#/definitions/Category'
+  '/unitclasses/{webId}':
+    get:
+      tags: 
+        - UnitClass 
+      summary: Retrieve a unit class.
+      operationId: GetUnitClass
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit class.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified unit class.
+          schema:
+            $ref: '#/definitions/UnitClass'
+    patch:
+      tags: 
+        - UnitClass  
+      summary: Update a unit class.
+      operationId: UpdateUnitClass
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit class.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: A partial unit class containing the desired changes.
+          required: true
+          schema:
+            $ref: '#/definitions/UnitClass'
+      responses:
+        '204':
+          description: The unit class was updated.
+    delete:
+      tags: 
+        - UnitClass
+      summary: Delete a unit class.
+      operationId: DeleteUnitClass
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit class to delete.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: The unit class was deleted.
+  '/unitclasses':
+    get:
+      tags: 
+        - UnitClass 
+      summary: Retrieve a unit class by path.
+      operationId: GetByPathUnitClass
+      parameters:
+        - in: query
+          name: path
+          description: The path to the unit class.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The specified unit class.
+          schema:
+            $ref: '#/definitions/Category'
+  '/unitclasses/{webId}/units':
+    post:
+      tags: 
+        - UnitClass 
+      summary: Create a unit in the specified Unit Class.
+      operationId: CreateUnit
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the server.
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: The new unit definition.
+          required: true
+          schema:
+            $ref: '#/definitions/Unit'
+      responses:
+        '201':
+          description: The unit was created. The response's Location header is a link to the unit.
+          headers:
+            Location:
+              description: A link to the unit.
+              type: string
+  '/unitclasses/{webId}/canonicalunit':
+    get:
+      tags: 
+        - UnitClass 
+      summary: Get the canonical unit of a unit class.
+      operationId: GetCanonicalUnit
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit class.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The canonical unit of the specified unit class.
+          schema:
+            $ref: '#/definitions/Unit'              
+  '/unitclasses/{webId}/units':
+    get:
+      tags: 
+        - UnitClass 
+      summary: Get a list of all units belonging to the unit class.
+      operationId: GetUnits
+      parameters:
+        - in: path
+          name: webId
+          description: The ID of the unit class.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The list of units in the unit class.
+          schema:
+            $ref: '#/definitions/Units'                 
+definitions:
+  AssetDatabases:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/AssetDatabase'
+  AssetDatabase:
+    type: object
+    properties:
+      webId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      Links:
+        $ref: '#/definitions/AssetDatabaseLinks'
+  AssetDatabaseLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      Elements:
+        type: string
+      ElementTemplates:
+        type: string
+      EventFrames:
+        type: string
+      AssetServer:
+        type: string
+      ElementCategories:
+        type: string
+      AttributeCategories:
+        type: string
+      TableCategories:
+        type: string
+      EnumerationSets:
+        type: string
+      Tables:
+        type: string
+  AssetServer:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      IsConnected:
+        type: boolean
+      ServerVersion:
+        type: string
+      Links:
+        $ref: '#/definitions/AssetServerLink'
+  AssetServerLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Databases:
+        type: string
+      UnitClasses:
+        type: string
+  AssetServers:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/AssetServer'
+  Attributes:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/Attribute'
+  Attribute:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      Type:
+        type: string
+      TypeQualifier:
+        type: string
+      DefaultUnitsName:
+        type: string
+      DataReferencePlugIn:
+        type: string
+      ConfigString:
+        type: string
+      IsConfigurationItem:
+        type: boolean
+      IsExcluded:
+        type: boolean
+      IsHidden:
+        type: boolean
+      CategoryNames:
+        type: array
+        items:
+          type: string
+      Step:
+        type: boolean
+      Links:
+        $ref: '#/definitions/AttributeLink'
+  AttributeLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Attributes:
+        type: string
+      Element:
+        type: string
+      Value:
+        type: string
+      InterpolatedData:
+        type: string
+      RecordedData:
+        type: string
+      PlotData:
+        type: string
+      SummaryData:
+        type: string
+      EndValue:
+        type: string
+      Categories:
+        type: string
+  AttributeTemplates:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/AttributeTemplate'
+  AttributeTemplate:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      Type:
+        type: string
+      TypeQualifier:
+        type: string
+      DefaultUnitsName:
+        type: string
+      DataReferencePlugIn:
+        type: string
+      ConfigString:
+        type: string
+      IsConfigurationItem:
+        type: boolean
+      IsExcluded:
+        type: boolean
+      IsHidden:
+        type: boolean
+      CategoryNames:
+        type: array
+        items:
+          type: string
+      Links:
+        $ref: '#/definitions/AttributeTemplateLinks'
+  AttributeTemplateLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      AttributeTemplates:
+        type: string
+      ElementTemplate:
+        type: string
+  CacheInstances:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/CacheInstance'
+  CacheInstance:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Id:
+        type: string
+      LastRefreshTime:
+        type: string
+      WillRefreshAfter:
+        type: string
+      ScheduledExpirationTime:
+        type: string
+      User:
+        type: string
+  Category:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      Links:
+        $ref: '#/definitions/CategoryLink'
+  Categories:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+  DataServers:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/DataServer'
+  DataServer:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      IsConnected:
+        type: boolean
+      ServerVersion:
+        type: string
+      Links:
+        $ref: '#/definitions/DataServerLink'
+  DataServerLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Points:
+        type: string
+      EnumerationSets:
+        type: string
+  Element:
+    type: object
+    properties:
+      webId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      TemplateName:
+        type: string
+      CategoryNames:
+        type: array
+        items:
+          type: string
+      Links:
+        $ref: '#/definitions/ElementLinks'
+  Elements:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/Element'
+  PageLinks:
+    type: object
+    properties:
+      First:
+        type: string
+      Previous:
+        type: string
+      Next:
+        type: string
+      Last:
+        type: string
+  ElementTemplate:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      AllowElementToExtend:
+        type: boolean
+      CategoryNames:
+        type: array
+        items:
+          type: string
+      Links:
+        $ref: '#/definitions/ElementTemplateLinks'
+  ElementTemplates:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/ElementTemplate'
+  EnumerationSet:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      Links:
+        $ref: '#/definitions/EnumerationSetLinks'
+  EnumerationSetDataServer:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      Links:
+        $ref: '#/definitions/EnumerationSetDataServerLinks'
+  EnumerationSets:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/EnumerationSet'
+  EnumerationSetsDataServer:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/EnumerationSetDataServer'
+  EnumerationValue:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Value:
+        type: integer
+      Path:
+        type: string
+      Links:
+        $ref: '#/definitions/EnumerationValueLink'
+  EnumerationValueLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      EnumerationSet:
+        type: string
+  EnumerationValues:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/EnumerationValue'
+#  EnumerationValueValue:
+#    type: object
+#    properties:
+#      Name:
+#        type: string
+#      Value:
+#        type: integer
+#      IsSystem:
+#        type: string
+  EventFrame:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      TemplateName:
+        type: string
+      CategoryNames:
+        type: array
+        items:
+          type: string
+      StartTime:
+        type: string
+      EndTime:
+        type: string
+      AreValuesCaptured:
+        type: boolean
+      RefElementWebIds:
+        type: array
+        items:
+          type: string
+      Links:
+        $ref: '#/definitions/EventFrameLinks'
+  EventFrameLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      Attributes:
+        type: string
+      EventFrames:
+        type: string
+      Database:
+        type: string
+      ReferencedElements:
+        type: string
+      Template:
+        type: string
+      PrimaryReferencedElement:
+        type: string
+      Categories:
+        type: string
+      InterpolatedData:
+        type: string
+      RecordedData:
+        type: string
+      PlotData:
+        type: string
+      SummaryData:
+        type: string
+      Value:
+        type: string
+      EndValue:
+        type: string
+  EventFrames:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/EventFrame'
+  ElementLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      Attributes:
+        type: string
+      Elements:
+        type: string
+      Database:
+        type: string
+      Parent:
+        type: string
+      Template:
+        type: string
+      Categories:
+        type: string
+      EventFrames:
+        type: string
+      InterpolatedData:
+        type: string
+      RecordedData:
+        type: string
+      PlotData:
+        type: string
+      SummaryData:
+        type: string
+      Value:
+        type: string
+      EndValue:
+        type: string
+  ElementTemplateLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      AttributeTemplates:
+        type: string
+      Database:
+        type: string
+      BaseTemplate:
+        type: string
+  EnumerationSetLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      Database:
+        type: string
+      Values:
+        type: string
+  EnumerationSetDataServerLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      DataServer:
+        type: string
+      Values:
+        type: string
+  CategoryLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Database:
+        type: string
+  System:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/SystemLinks'
+  SystemLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      CacheInstances:
+        type: string
+      Configuration:
+        type: string
+      UserInfo:
+        type: string
+      Versions:
+        type: string
+  Links:
+    type: object
+    properties:
+      Self:
+        type: string
+      AssetServers:
+        type: string
+      DataServers:
+        type: string
+      Database:
+        type: string
+      System:
+        type: string
+      First:
+        type: string
+      Previous:
+        type: string
+      Next:
+        type: string
+      Last:
+        type: string
+  TableLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Database:
+        type: string
+      Data:
+        type: string
+      Categories:
+        type: string
+  PointAttribute:
+    type: object
+    properties:
+      Name:
+        type: string
+      Value:
+        type: string
+      Links:
+        $ref: '#/definitions/PointAttributeLink'
+  PointAttributeLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Point:
+        type: string
+  EmptyLink:
+    type: string
+  PointAttributes:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/EmptyLink'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/PointAttribute'
+  Points:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/Point'
+  Point:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: boolean
+      Name:
+        type: string
+      PointClass:
+        type: string
+      PointType:
+        type: string
+      Future:
+        type: boolean
+      Links:
+        $ref: '#/definitions/PointLink'
+  PointLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      DataServer:
+        type: string
+      Attributes:
+        type: string
+      Value:
+        type: string
+      InterpolatedData:
+        type: string
+      RecordedData:
+        type: string
+      PlotData:
+        type: string        
+      SummaryData:
+        type: string        
+      EndValue:
+        type: string        
+  StreamSummaries:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Name:
+        type: string
+      Links:
+        $ref: '#/definitions/Links'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/SummaryValue'
+  StreamValue:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Name:
+        type: string
+      Links:
+        $ref: '#/definitions/Links'
+      Value:
+        $ref: '#/definitions/TimedValue'
+  StreamValues:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Name:
+        type: string
+      UnitsAbbreviation:
+        type: string
+      Links:
+        $ref: '#/definitions/Links'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/TimedValue'
+  SummaryValues:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/SummaryValue'
+  SummaryValue:
+    type: object
+    properties:
+      Type:
+        type: string
+      Value:
+        $ref: '#/definitions/TimedValue'
+  TimedValue:
+    type: object
+    properties:
+      Timestamp:
+        type: string
+      Value:
+        type: string
+      UnitsAbbreviation:
+        type: string
+      Good:
+        type: boolean
+      Questionable:
+        type: boolean
+      Substituted:
+        type: boolean
+  TimedValues:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      UnitsAbbreviation:
+        type: string
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/TimedValue'
+  Table:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Path:
+        type: string
+      CategoryNames:
+        type: array
+        items:
+          type: string
+      Links:
+        $ref: '#/definitions/TableLink'
+  Tables:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/Table'
+  UnitClass:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      CanonicalUnitName:
+        type: string
+      CanonicalUnitAbbreviation:
+        type: string
+      Path:
+        type: string
+      Links:
+        $ref: '#/definitions/UnitClassLinks'
+  UnitClassLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      CanonicalUnit:
+        type: string
+      Units:
+        type: string
+      AssetServer:
+        type: string
+  UnitClasses:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/UnitClass'
+  Units:
+    type: object
+    properties:
+      Links:
+        $ref: '#/definitions/PageLinks'
+      Items:
+        type: array
+        items:
+          $ref: '#/definitions/Unit'
+  Unit:
+    type: object
+    properties:
+      WebId:
+        type: string
+      Id:
+        type: string
+      Name:
+        type: string
+      Abbreviation:
+        type: string
+      Description:
+        type: string
+      CanonicalUnitName:
+        type: string
+      CanonicalUnitAbbreviation:
+        type: string
+      Path:
+        type: string
+      Factor:
+        type: number
+        format: float
+      Offset:
+        type: number
+        format: float
+      ReferenceFactor:
+        type: number
+        format: float
+      ReferenceOffset:
+        type: number
+        format: float
+      ReferenceUnitAbbreviation:
+        type: string
+      Links:
+        $ref: '#/definitions/UnitLink'
+  UnitLink:
+    type: object
+    properties:
+      Self:
+        type: string
+      Class:
+        type: string
+  UserInfo:
+    type: object
+    properties:
+      IdentityType:
+        type: string
+      Name:
+        type: string
+      IsAuthenticated:
+        type: boolean
+      SID:
+        type: string
+      ImpersonationLevel:
+        type: integer
+  Versions:
+    type: object
+    properties:
+      OSIsoft.REST.Batch:
+        $ref: '#/definitions/Version'
+      OSIsoft.REST.Channels:
+        $ref: '#/definitions/Version'
+      OSIsoft.REST:
+        $ref: '#/definitions/Version'
+      OSIsoft.REST.Documentation:
+        $ref: '#/definitions/Version'
+      OSIsoft.Search.SvcLib:
+        $ref: '#/definitions/Version'
+  Version:
+    type: object
+    properties:
+      FullVersion:
+        type: string
+      MajorMinorRevision:
+        type: string
+      Build:
+        type: string
+  Configuration:
+    type: object
+    properties:
+      AuthenticationMethods:
+        type: array
+        items:
+          type: string
+      CorsHeaders:
+        type: string
+      CorsMethods:
+        type: string
+      CorsOrigins:
+        type: string
+      CorsSupportsCredentials:
+        type: boolean
+      DisableWrites:
+        type: boolean
+      SearchBoosts:
+        type: array
+        items:
+          type: string
+      SearchPointAttributes:
+        type: array
+        items:
+          type: string
+      SearchScanInterval:
+        type: integer
+  HomeLinks:
+    type: object
+    properties:
+      Self:
+        type: string
+      AssetServers:
+        $ref: '#/definitions/AssetServers'
+      DataServers:
+        $ref: '#/definitions/DataServers'
+      Search:
+        type: string
+      System:
+        type: string

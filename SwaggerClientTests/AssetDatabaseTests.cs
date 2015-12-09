@@ -12,37 +12,35 @@ using IO.Swagger.Model;
 
 using Newtonsoft.Json;
 
-using SwaggerClientTests.Helpers;
-
 using Xunit;
 
-namespace SwaggerClientTests
+namespace PIWebAPICSharpClientTests
 {
-    public class AssetDatabasesTest
+    public class AssetDatabaseTests
     {
         ApiClient client;
         IAssetDatabasesApi api;
 
         HttpClient httpClient;
 
-        public AssetDatabasesTest()
+        public AssetDatabaseTests()
         {
-            client = new ApiClient(AssetDatabasesResource.Base);
+            client = new ApiClient(Resource.Base);
             client.AddDefaultHeader("Cache-Control", "no-cache");
             api = new AssetDatabasesApi(client);
 
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(AssetDatabasesResource.Base);
+            httpClient.BaseAddress = new Uri(Resource.Base);
             httpClient.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
         }
 
         [Fact]
         public void Get()
         {
-            AssetDatabase assetDatabase = api.GetAssetDatabase(AssetDatabasesResource.WebId);
+            AssetDatabase assetDatabase = api.GetAssetDatabase(Resource.WebId);
             string testResponse = JsonConvert.SerializeObject(assetDatabase);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -52,10 +50,10 @@ namespace SwaggerClientTests
         [Fact]
         public void GetByPath()
         {
-            AssetDatabase assetDatabase = api.GetByPathAssetDatabase(AssetDatabasesResource.Path);
+            AssetDatabase assetDatabase = api.GetByPathAssetDatabase(Resource.Path);
             string testResponse = JsonConvert.SerializeObject(assetDatabase);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases?path={AssetDatabasesResource.Path}")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases?path={Resource.Path}")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -65,10 +63,10 @@ namespace SwaggerClientTests
         [Fact]
         public void GetAttributeCategories()
         {
-            Categories categories = api.GetAttributeCategories(AssetDatabasesResource.WebId);
+            Categories categories = api.GetAttributeCategories(Resource.WebId);
             string testResponse = JsonConvert.SerializeObject(categories);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/attributecategories")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/attributecategories")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -78,11 +76,11 @@ namespace SwaggerClientTests
         [Fact]
         public void GetElementCategories()
         {
-            Categories categories = api.GetElementCategories(AssetDatabasesResource.WebId);
+            Categories categories = api.GetElementCategories(Resource.WebId);
 
             string output = JsonConvert.SerializeObject(categories);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/elementcategories")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/elementcategories")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -93,7 +91,7 @@ namespace SwaggerClientTests
         public void GetElements()
         {
             Elements elements = api.GetElements(
-                webId: AssetDatabasesResource.WebId,
+                webId: Resource.WebId,
                 nameFilter: "B*",
                 categoryName: "Equipment Assets",
                 templateName: "Boiler",
@@ -106,7 +104,7 @@ namespace SwaggerClientTests
 
             string testResponse = JsonConvert.SerializeObject(elements);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/elements?" +
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/elements?" +
                 "nameFilter=B*&categoryName=Equipment Assets&templateName=Boiler&elementType=Any&searchFullHierarchy=true&sortField=Name&sortOrder=Ascending&startIndex=3&maxCount=5")
                 .Result.Content
                 .ReadAsStringAsync().Result;
@@ -118,7 +116,7 @@ namespace SwaggerClientTests
         public void GetElementTemplates()
         {
             ElementTemplates elementTemplates = api.GetElementTemplates(
-                webId: AssetDatabasesResource.WebId,
+                webId: Resource.WebId,
                 query: "*",
                 field: "Name",
                 sortField: "Name",
@@ -127,7 +125,7 @@ namespace SwaggerClientTests
 
             string testResponse = JsonConvert.SerializeObject(elementTemplates);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/elementtemplates?" +
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/elementtemplates?" +
                 "query=*&field=Name&sortField=Name&sortOrder=Ascending&maxCount=10")
                 .Result.Content
                 .ReadAsStringAsync().Result;
@@ -138,10 +136,10 @@ namespace SwaggerClientTests
         [Fact]
         public void GetEnumerationSets()
         {
-            EnumerationSets enumerationSets = api.GetEnumerationSets(AssetDatabasesResource.WebId);
+            EnumerationSets enumerationSets = api.GetEnumerationSets(Resource.WebId);
             string testResponse = JsonConvert.SerializeObject(enumerationSets);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/enumerationsets")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/enumerationsets")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -152,7 +150,7 @@ namespace SwaggerClientTests
         public void GetEventFrames()
         {
             EventFrames eventFrames = api.GetEventFrames(
-                webId: AssetDatabasesResource.WebId,
+                webId: Resource.WebId,
                 searchMode: "ForwardFromStartTime",
                 startTime: "2015-jan-01",
                 endTime: null,
@@ -169,7 +167,7 @@ namespace SwaggerClientTests
 
             string testResponse = JsonConvert.SerializeObject(eventFrames);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/eventframes?" +
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/eventframes?" +
                 "searchMode=ForwardFromStartTime&startTime=2015-jan-01&nameFilter=*&referencedElementNameFilter=*&categoryName=Equipment Assets&" +
                 "templateName=EFTemplate&referencedElementTemplateName=Boiler&searchFullHierarchy=true&startIndex=0&maxCount=2")
                 .Result.Content
@@ -182,11 +180,11 @@ namespace SwaggerClientTests
         public void GetTableCategories()
         {
             Categories categories = api.GetTableCategories(
-                webId: AssetDatabasesResource.WebId);
+                webId: Resource.WebId);
 
             string testResponse = JsonConvert.SerializeObject(categories);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/tablecategories")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/tablecategories")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -197,11 +195,11 @@ namespace SwaggerClientTests
         public void GetTables()
         {
             Tables tables = api.GetTables(
-                webId: AssetDatabasesResource.WebId);
+                webId: Resource.WebId);
 
             string testResponse = JsonConvert.SerializeObject(tables);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebId}/tables")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebId}/tables")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -212,7 +210,7 @@ namespace SwaggerClientTests
         public void CreateAttributeCategory()
         {
             Category testCategory = new Category { Name = $"Test category", Description = "Test description" };
-            api.CreateAttributeCategory(AssetDatabasesResource.WebIdCreate, testCategory);
+            api.CreateAttributeCategory(Resource.WebIdCreate, testCategory);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -232,7 +230,7 @@ namespace SwaggerClientTests
         public void CreateElementCategory()
         {
             Category testCategory = new Category { Name = $"Test category", Description = "Test description" };
-            api.CreateElementCategory(AssetDatabasesResource.WebIdCreate, testCategory);
+            api.CreateElementCategory(Resource.WebIdCreate, testCategory);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -252,7 +250,7 @@ namespace SwaggerClientTests
         public void CreateTableCategory()
         {
             Category testCategory = new Category { Name = $"Test category", Description = "Test description" };
-            api.CreateTableCategory(AssetDatabasesResource.WebIdCreate, testCategory);
+            api.CreateTableCategory(Resource.WebIdCreate, testCategory);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -272,7 +270,7 @@ namespace SwaggerClientTests
         public void CreateElement()
         {
             Element testElement = new Element { Name = $"Test element", Description = "Test description", CategoryNames = new string[] {"ElementCategory" }.ToList()};
-            api.CreateElement(AssetDatabasesResource.WebIdCreate, testElement);
+            api.CreateElement(Resource.WebIdCreate, testElement);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -293,7 +291,7 @@ namespace SwaggerClientTests
         public void CreateElementTemplate()
         {
             ElementTemplate testElementTemplate = new ElementTemplate { Name = $"Test element", Description = "Test description", CategoryNames = new string[] { "ElementCategory" }.ToList() };
-            api.CreateElementTemplate(AssetDatabasesResource.WebIdCreate, testElementTemplate);
+            api.CreateElementTemplate(Resource.WebIdCreate, testElementTemplate);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -314,7 +312,7 @@ namespace SwaggerClientTests
         public void CreateEnumerationSet()
         {
             EnumerationSet testEnumerationSet = new EnumerationSet { Name = $"Test element", Description = "Test description" };
-            api.CreateEnumerationSet(AssetDatabasesResource.WebIdCreate, testEnumerationSet);
+            api.CreateEnumerationSet(Resource.WebIdCreate, testEnumerationSet);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -334,9 +332,9 @@ namespace SwaggerClientTests
         public void CreateEventFrame()
         {
             EventFrame testEventFrame = new EventFrame { Name = $"Test event frame", Description = "Test description", CategoryNames = new string[] { "ElementCategory" }.ToList(),
-                StartTime = "2014-11-01T07:00:00Z", EndTime = "2014-11-02T07:00:00Z", RefElementWebIds = new string[] { AssetDatabasesResource.WebIdEventFrameElement }.ToList(),
+                StartTime = "2014-11-01T07:00:00Z", EndTime = "2014-11-02T07:00:00Z", RefElementWebIds = new string[] { Resource.WebIdEventFrameElement }.ToList(),
             };
-            api.CreateEventFrame(AssetDatabasesResource.WebIdCreate, testEventFrame);
+            api.CreateEventFrame(Resource.WebIdCreate, testEventFrame);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -360,7 +358,7 @@ namespace SwaggerClientTests
         public void CreateTable()
         {
             Table testTable = new Table { Name = $"Test element", Description = "Test description", CategoryNames = new string[] { "TableCategory" }.ToList(), };
-            api.CreateTable(AssetDatabasesResource.WebIdCreate, testTable);
+            api.CreateTable(Resource.WebIdCreate, testTable);
 
             string webId = client.ResponseHeaders["Location"];
 
@@ -381,9 +379,9 @@ namespace SwaggerClientTests
         public void UpdateDatabase()
         {
             AssetDatabase test = new AssetDatabase { Description = "Test description" };
-            api.UpdateAssetDatabase(AssetDatabasesResource.WebIdCreate, test);
+            api.UpdateAssetDatabase(Resource.WebIdCreate, test);
 
-            string expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebIdCreate}")
+            string expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebIdCreate}")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
@@ -392,7 +390,7 @@ namespace SwaggerClientTests
             Assert.True(String.Equals(test.Description, expected.Description, StringComparison.InvariantCultureIgnoreCase));
 
             test = new AssetDatabase { Description = "" };
-            api.UpdateAssetDatabase(AssetDatabasesResource.WebIdCreate, test);
+            api.UpdateAssetDatabase(Resource.WebIdCreate, test);
         }
 
         [Fact]
@@ -402,13 +400,13 @@ namespace SwaggerClientTests
             string s = JsonConvert.SerializeObject(test);
             HttpContent content = new StringContent(s, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = httpClient.PostAsync($"{AssetDatabasesResource.Base}/assetservers/{AssetDatabasesResource.WebIdAssetServer}/assetdatabases", content).Result;
+            HttpResponseMessage response = httpClient.PostAsync($"{Resource.Base}/assetservers/{Resource.WebIdAssetServer}/assetdatabases", content).Result;
 
             string webId = response.Headers.Location.ToString().Split('/').Last();
 
             api.DeleteAssetDatabase(webId);
 
-            HttpResponseMessage expectedResponse = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{webId}").Result;
+            HttpResponseMessage expectedResponse = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{webId}").Result;
 
             Assert.True(String.Equals("NotFound", expectedResponse.StatusCode.ToString(), StringComparison.InvariantCultureIgnoreCase));
         }
@@ -417,12 +415,12 @@ namespace SwaggerClientTests
         [Fact]
         public void Export()
         {
-            string expected = httpClient.GetAsync($"{AssetDatabasesResource.Base}/assetdatabases/{AssetDatabasesResource.WebIdToExport}/export")
+            string expected = httpClient.GetAsync($"{Resource.Base}/assetdatabases/{Resource.WebIdToExport}/export")
                 .Result.Content
                 .ReadAsStringAsync().Result;
 
             //406 NotAcceptable
-            string test = api.ExportDatabase(AssetDatabasesResource.WebIdAssetServer, null, null, null);
+            string test = api.ExportDatabase(Resource.WebIdAssetServer, null, null, null);
 
             Assert.True(String.Equals(test, expected, StringComparison.InvariantCultureIgnoreCase));
         }
@@ -434,7 +432,7 @@ namespace SwaggerClientTests
         {
             Stream stream = new FileStream(@"..\..\XML\ToImport.xml", FileMode.Open);
             client.DefaultHeader.Add("Content-Type", "text/xml");
-            api.ImportDatabase(AssetDatabasesResource.WebIdToImport, stream, null);
+            api.ImportDatabase(Resource.WebIdToImport, stream, null);
 
             string webId = client.ResponseHeaders["Location"];
 

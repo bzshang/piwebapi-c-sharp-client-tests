@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KellermanSoftware.CompareNetObjects;
 
-namespace SwaggerClientTests.Helpers
+namespace PIWebAPICSharpClientTests.Helpers
 {
     public static class ComparisonHelper
     {

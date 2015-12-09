@@ -15,6 +15,13 @@ namespace IO.Swagger.Model {
   public class CacheInstance {
     
     /// <summary>
+    /// Gets or Sets Links
+    /// </summary>
+    [DataMember(Name="Links", EmitDefaultValue=false)]
+    public PageLinks Links { get; set; }
+
+    
+    /// <summary>
     /// Gets or Sets Id
     /// </summary>
     [DataMember(Name="Id", EmitDefaultValue=false)]
@@ -57,6 +64,8 @@ namespace IO.Swagger.Model {
     public override string ToString()  {
       var sb = new StringBuilder();
       sb.Append("class CacheInstance {\n");
+      
+      sb.Append("  Links: ").Append(Links).Append("\n");
       
       sb.Append("  Id: ").Append(Id).Append("\n");
       
